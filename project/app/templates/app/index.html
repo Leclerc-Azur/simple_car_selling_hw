@@ -1,0 +1,32 @@
+{% extends "app/layout.html" %}
+{% load static %}
+
+{% block title %}Наш автопарк{% endblock %}
+
+{% block content %}
+    <h1 class="text-center mb-4">Наш автопарк</h1>
+    <div class="row g-4">
+        {% for car in cars %}
+            <div class="col-md-4">
+                <div class="card h-100 car-card shadow-sm">
+                    {% if car.image %}
+                        <img src="{{ car.image.url }}" class="card-img-top" alt="{{ car.title }}">
+                    {% else %}
+                        <img src="{% static 'default-car.jpg' %}" class="card-img-top" alt="Default image">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ car.title }}</h5>
+                        <p class="car-description" title="{{ car.description }}">
+                            {% if car.description %}
+                                {{ car.description|truncatechars:60 }}
+                            {% else %}
+                                Описание
+                            {% endif %}
+                        </p>
+                        <a href="{% url 'car_detail' car.id %}" class="btn btn-primary mt-2">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
